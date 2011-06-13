@@ -1,6 +1,7 @@
 SampleApp::Application.routes.draw do
 
   # Maps browser requests to Pages controller actions
+  get "pages/about"
   get "pages/home"
   get "pages/contact"
 

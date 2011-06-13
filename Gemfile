@@ -22,6 +22,13 @@ group :test do
   gem 'factory_girl_rails', '1.0'
 end
 
+group :development, :test do
+  gem 'ZenTest'
+end
+
+gem 'autotest-growl'
+gem 'autotest-fsevent'
+
 # User rake 0.8.7 to avoid Rake::DSL issue
 gem "rake", "0.8.7"
 
