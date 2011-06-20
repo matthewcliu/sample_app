@@ -34,7 +34,6 @@ describe PagesController do
                         :content => @base_title + " | Home")
       end
   end
-  
 
   describe "GET 'contact'" do
     it "should be successful" do
