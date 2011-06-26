@@ -8,11 +8,15 @@ describe PagesController do
     @base_title = "Ruby on Rails Tutorial Sample App"
   end
 
+  #def about @title = "About"end in the pages_controller makes this a passing test
+
   describe "GET 'about'" do
     it "should be successful" do
       get 'about'
       response.should be_success
     end
+
+    #title variable in application.html.erb and application_helper.rb make this this a passing test
 
     it "should have the right title" do
       get 'about'
@@ -55,7 +59,7 @@ describe PagesController do
     it "should have the right title" do
       get 'help'
       response.should have_selector("title",
-                        :content => "Ruby on Rails Tutorial Sample App | Help")
+                        :content => @base_title + " | Help")
     end
   end
   
