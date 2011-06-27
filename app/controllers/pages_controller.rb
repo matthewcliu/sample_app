@@ -1,5 +1,6 @@
 class PagesController < ApplicationController
   def home
+    #Sets @title to be "Home" for the home view
     @title = "Home"
   end
 

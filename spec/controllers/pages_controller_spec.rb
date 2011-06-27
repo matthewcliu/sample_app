@@ -34,6 +34,7 @@ describe PagesController do
 
     it "should have the right title" do
       get 'home'
+      # Note that :content matches substrings - doesn't have to be exact match
       response.should have_selector("title",
                         :content => @base_title + " | Home")
       end
