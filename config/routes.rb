@@ -1,6 +1,10 @@
 SampleApp::Application.routes.draw do
 
+  get "sessions/new"
+
+  #Adding resources allow the app to use the standard RESTful actions. Then the actions can be mapped to pages below.
   resources :users
+  resources :sessions, :only => [:new, :create, :destroy]
 
   # Maps browser requests to Pages controller actions
   #get "pages/about"
@@ -12,6 +16,8 @@ SampleApp::Application.routes.draw do
   match '/about',   :to => 'pages#about'
   match '/help',    :to => 'pages#help'
   match '/signup',  :to => 'users#new'
+  match '/signin',  :to => 'sessions#new'
+  match '/signout', :to => 'sessions#destroy'
   
 
   # The priority is based upon order of creation:
