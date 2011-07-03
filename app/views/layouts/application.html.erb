@@ -8,10 +8,11 @@
   <body>
     <div class="container">
 	  <%= render 'layouts/header'%>
+	  <%= javascript_include_tag :defaults %>
       <section class="round">
 		<% flash.each do |key, value| %>
-		  <div class="flash <%= key %>"><%= value %></div>
-		<% end %>
+		  <%= content_tag(:div, value, :class => "flash #{key}") %>
+		  <% end %>
         <%= yield %>
       </section>
     </div>

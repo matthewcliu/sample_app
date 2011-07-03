@@ -96,7 +96,17 @@ RSpec.configure do |config|
   # instead of true.
   config.use_transactional_fixtures = true
   
+  #Signs in a user, in this case it will be Factory user, for testing
   def test_sign_in(user)
     controller.sign_in(user)
   end
+  
+  #Test function to sign users in inside of integration tests
+  def integration_sign_in(user)
+    visit signin_path
+    fill_in :email,   :with => user.email
+    fill_in :password, :with => user.password
+    click_button
+  end
+  
 end

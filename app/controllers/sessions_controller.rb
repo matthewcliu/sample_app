@@ -15,13 +15,15 @@ class SessionsController < ApplicationController
       @title = "Sign in"
       render 'new'
     else
-      #Sign in and redirect since the authentication will be true
+      #Sign in and redirect since the authentication will be true. Method in sessions helper.
       sign_in user
-      redirect_to user
+      #Standard Rails method for redirects replaced by a friendly redirect method that has session control
+      redirect_back_or(user)
     end
   end
   
   def destroy
+    #Sign out the user. Actual method in sessions helper.
     sign_out
     redirect_to root_path
   end

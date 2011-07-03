@@ -53,6 +53,7 @@ describe SessionsController do
         #Specifically checks the controller
         controller.current_user.should == @user
         #Equivalent to controller.signed_in?.should be_true
+        #Create sign_in? method
         controller.should be_signed_in
       end
       
@@ -68,6 +69,7 @@ describe SessionsController do
   describe "DELETE 'destroy'" do
     it "should sign a user out" do
       test_sign_in(Factory(:user))
+      #delete method calls destroy (need to define it in the controller)
       delete :destroy
       controller.should_not be_signed_in
       response.should redirect_to(root_path)

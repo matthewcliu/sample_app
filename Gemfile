@@ -22,6 +22,7 @@ group :test do
   gem 'factory_girl_rails', '1.0'
   gem 'autotest-growl'
   gem 'autotest-fsevent'
+  gem "database_cleaner", "~> 0.6.7"
 end
 
 group :development, :test do

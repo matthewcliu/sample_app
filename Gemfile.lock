@@ -35,6 +35,7 @@ GEM
       sys-uname
     autotest-growl (0.2.9)
     builder (2.1.2)
+    database_cleaner (0.6.7)
     diff-lcs (1.1.2)
     erubis (2.6.6)
       abstract (>= 1.0.0)
@@ -106,6 +107,7 @@ DEPENDENCIES
   annotate-models (= 1.0.4)
   autotest-fsevent
   autotest-growl
+  database_cleaner (~> 0.6.7)
   factory_girl_rails (= 1.0)
   faker (= 0.3.1)
   gravatar_image_tag (= 1.0.0.pre2)

@@ -14,8 +14,9 @@
 require 'digest'
 
 class User < ActiveRecord::Base
-  #Creates get and set methods that allow us to retrieve (get) and assign (set) password
+  #Creates get and set methods that allow us to retrieve (get) and assign (set) password. That way you don't have to design separate actions.
   attr_accessor :password
+  #Protects against mass assignments of variables, primarily from forms. Still allows controller and console changes.
   attr_accessible :name, :email, :password, :password_confirmation
   
   #Common regular expression for valid email addresses
@@ -28,14 +29,14 @@ class User < ActiveRecord::Base
                     :format => { :with => email_regex },
                     :uniqueness => { :case_sensitive => false }
   validates :password, :presence  => true,
-                     # This is a trick that creates a virtaul attribute 'password_confirmation' then prevents passwords that don't match from saving
+                     # This is a trick that creates a virtual attribute 'password_confirmation' then prevents passwords that don't match from saving
                      :confirmation => true,
                      :length => { :within => 6..40 }
   
   #ActiveRecord will now call encrypt_password method before attempting to save to the db                   
   before_save :encrypt_password
   
-  # Return true if user's stored password matches the submitted password.
+  # Return true if user's stored password matches the submitted password. Should probably be named has_matching_password
   def has_password?(submitted_password)
     # Compare encrypted_password with the encrypted version of submitted_password
     encrypted_password == encrypt(submitted_password)
@@ -46,11 +47,18 @@ class User < ActiveRecord::Base
     return nil if user.nil?
     return user if user.has_password?(submitted_password)
   end
+
+#  def User.authenticate(email, submitted_password)
+#    user = find_by_email(email)
+#    return nil  if user.nil?
+#    return user if user.has_password?(submitted_password)
+#  end
   
   # Finds user by id then verifies salt is the correct one
   def self.authenticate_with_salt(id, cookie_salt)
     user = find_by_id(id)
     #if-else combined into one line by ternary operator
+    #Alternatively would be return nil if user.nil? return user is user.salt == cookie_salt
     (user && user.salt == cookie_salt) ? user : nil
   end
   
@@ -60,7 +68,7 @@ class User < ActiveRecord::Base
       #Creates a new salt record for the current object. new_record? returns true if the object has not yet been saved to the database.
       self.salt = make_salt if new_record?
       #self refers to the object itself so it encrypts the encrypted_password attribute within the current object
-      self.encrypted_password = encrypt(password)
+      self.encrypted_password = encrypt(self.password)
     end
     
     def encrypt (string)

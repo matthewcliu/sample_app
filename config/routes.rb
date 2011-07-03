@@ -12,6 +12,7 @@ SampleApp::Application.routes.draw do
   #get "pages/contact"
   #get "pages/help"
 
+  # Matches URL and RESTful requests to 'controller#action'
   match '/contact', :to => 'pages#contact'
   match '/about',   :to => 'pages#about'
   match '/help',    :to => 'pages#help'
