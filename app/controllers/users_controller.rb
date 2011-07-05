@@ -13,8 +13,11 @@ class UsersController < ApplicationController
   def show
     #Looks at User database, queries by id, creates a hash, and places data in the @user instance variable
     @user = User.find(params[:id])
+    #Pagination conversion of array to WillPaginate::Collection object can occur on the fly
+    @microposts = @user.microposts.paginate(:page => params[:page])
     #Sets @title to the name of the user. This is then passed to the users helper file and used to set title.
     @title = @user.name
+
   end
   
   def index
@@ -70,10 +73,6 @@ class UsersController < ApplicationController
   
   private
   
-    def authenticate
-      #Calls yet to be defined method deny_access (to be put in sessions since it is authentication) and signed_in? method
-      deny_access unless signed_in?
-    end
     
     def correct_user
       #Lookup user whose page is being accessed

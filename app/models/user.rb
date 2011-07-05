@@ -19,6 +19,9 @@ class User < ActiveRecord::Base
   #Protects against mass assignments of variables, primarily from forms. Still allows controller and console changes.
   attr_accessible :name, :email, :password, :password_confirmation
   
+  #Associations with many microposts
+  has_many :microposts, :dependent => :destroy
+  
   #Common regular expression for valid email addresses
   email_regex = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   
@@ -60,6 +63,11 @@ class User < ActiveRecord::Base
     #if-else combined into one line by ternary operator
     #Alternatively would be return nil if user.nil? return user is user.salt == cookie_salt
     (user && user.salt == cookie_salt) ? user : nil
+  end
+  
+  #Micropost status feed - ? escapes id
+  def feed
+    Micropost.where("user_id = ?", id)
   end
   
   private

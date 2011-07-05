@@ -31,6 +31,11 @@ module SessionsHelper
     self.current_user = nil
   end
 
+  def authenticate
+    #Calls yet to be defined method deny_access (to be put in sessions since it is authentication) and signed_in? method
+    deny_access unless signed_in?
+  end
+
   def deny_access
     #Stores location of page that is being denied
     store_location
