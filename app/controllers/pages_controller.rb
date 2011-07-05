@@ -8,8 +8,7 @@ class PagesController < ApplicationController
       @micropost = Micropost.new
       #Aggregates user's feed items and paginates them
       @feed_items = current_user.feed.paginate(:page => params[:page])
-    end
-    
+    end 
   end
 
   def contact       
