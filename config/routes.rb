@@ -1,12 +1,19 @@
 SampleApp::Application.routes.draw do
 
-  get "sessions/new"
-
   #Adding resources allow the app to use the standard RESTful actions. Then the actions can be mapped to pages below.
-  resources :users
+  resources :users do
+    member do
+      #Creates users/id/following and users/id/followers
+      get :following, :followers
+    end
+  end
+
+  get "sessions/new"
+  
   resources :sessions, :only => [:new, :create, :destroy]
   #Can limit RESTful routes since micropost actions are happening on the user and page controllers
   resources :microposts, :only => [:create, :destroy]
+  resources :relationships, :only => [:create, :destroy]
 
   # Maps browser requests to Pages controller actions
   #get "pages/about"

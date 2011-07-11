@@ -22,6 +22,20 @@ class User < ActiveRecord::Base
   #Associations with many microposts
   has_many :microposts, :dependent => :destroy
   
+  #Associations with relationships
+  has_many :relationships, :foreign_key => "follower_id",
+                           :dependent => :destroy
+                                                      
+  #Associations with followings - followings should really be user.followeds, but it's been renamed as followings using the source :followed
+  has_many :following, :through => :relationships, :source => :followed
+  
+  has_many :reverse_relationships, :foreign_key => "followed_id",
+                                   :class_name => "Relationship",
+                                   :dependent => :destroy
+  
+  
+  has_many :followers, :through => :reverse_relationships, :source => :follower
+  
   #Common regular expression for valid email addresses
   email_regex = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   
@@ -67,7 +81,24 @@ class User < ActiveRecord::Base
   
   #Micropost status feed - ? escapes id
   def feed
-    Micropost.where("user_id = ?", id)
+    Micropost.from_users_followed_by(self)
+  end
+  
+  #This section describes following methods
+  
+  #Boolean to see if followed is being followed
+  def following?(followed)
+    #Checks the relationship table to see if followed is found
+    relationships.find_by_followed_id(followed)
+  end
+  
+  def follow!(followed)
+    #Creates a new following relationship - self. creates a row with follower.id and adds followed.id in the second column
+    self.relationships.create!(:followed_id => followed.id)
+  end
+  
+  def unfollow!(followed)
+    self.relationships.find_by_followed_id(followed).destroy
   end
   
   private
